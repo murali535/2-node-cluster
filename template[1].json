@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "managedClusters_test_name": {
+            "defaultValue": "test",
+            "type": "String"
+        },
+        "workspaces_defaultworkspace_14e3adce_468b_4826_ba89_727568ef54db_cin_externalid": {
+            "defaultValue": "/subscriptions/14e3adce-468b-4826-ba89-727568ef54db/resourceGroups/defaultresourcegroup-cin/providers/microsoft.operationalinsights/workspaces/defaultworkspace-14e3adce-468b-4826-ba89-727568ef54db-cin",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ContainerService/managedClusters",
+            "apiVersion": "2018-03-31",
+            "name": "[parameters('managedClusters_test_name')]",
+            "location": "southindia",
+            "properties": {
+                "kubernetesVersion": "1.12.6",
+                "dnsPrefix": "[concat(parameters('managedClusters_test_name'), '-dns')]",
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "count": 2,
+                        "vmSize": "Standard_DS2_v2",
+                        "osDiskSizeGB": 100,
+                        "storageProfile": "ManagedDisks",
+                        "maxPods": 110,
+                        "osType": "Linux"
+                    }
+                ],
+                "servicePrincipalProfile": {
+                    "clientId": "ac1d8287-fb98-4336-9dfe-09bbb4984ff4"
+                },
+                "addonProfiles": {
+                    "httpApplicationRouting": {
+                        "enabled": false,
+                        "config": null
+                    },
+                    "omsagent": {
+                        "enabled": true,
+                        "config": {
+                            "logAnalyticsWorkspaceResourceID": "[parameters('workspaces_defaultworkspace_14e3adce_468b_4826_ba89_727568ef54db_cin_externalid')]"
+                        }
+                    }
+                },
+                "enableRBAC": false,
+                "networkProfile": {
+                    "networkPlugin": "kubenet",
+                    "podCidr": "10.244.0.0/16",
+                    "serviceCidr": "10.0.0.0/16",
+                    "dnsServiceIP": "10.0.0.10",
+                    "dockerBridgeCidr": "172.17.0.1/16"
+                }
+            }
+        }
+    ]
+}

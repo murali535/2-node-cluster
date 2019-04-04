@@ -1,0 +1,12 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "managedClusters_test_name": {
+            "value": null
+        },
+        "workspaces_defaultworkspace_14e3adce_468b_4826_ba89_727568ef54db_cin_externalid": {
+            "value": null
+        }
+    }
+}
